@@ -1,13 +1,15 @@
-name: Factorial CI 
+name: Factorial CI
 
 on:
   push:
     branches:
-      -main
-    
+      - main
+
 jobs:
+
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,17 +20,18 @@ jobs:
           python-version: "3.13"
 
       - name: Install dependencies
-        run: pip intsall -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run tests
         run: pytest
-    
-  build:
-      needs: test
-      runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout code
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Create build package
@@ -42,6 +45,7 @@ jobs:
         with:
           name: factorial-build
           path: build/
+
 
   deploy:
     needs: build
@@ -63,4 +67,3 @@ jobs:
         run: |
           echo "Deploying factorial application..."
           echo "Deployment successful!"
-
